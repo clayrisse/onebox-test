@@ -21,15 +21,25 @@ public class Carts {
     public void setList(HashMap<Integer, Cart> list) { this.list = list; }
 
     public Cart getById(int id) throws InterruptedException {
+
         if (!this.getList().containsKey(id)) throw new RuntimeException("Cart id not found!");
-//        System.err.println(System.currentTimeMillis() - this.getList().get(id).getCreateTime() + "<   3000 ...get");
-//        if (System.currentTimeMillis() - this.getList().get(id).getCreateTime() < 1000*3) {
-        if (System.currentTimeMillis() - this.getList().get(id).getCreateTime() < 1000*60*10) {
+        if (System.currentTimeMillis() - this.getList().get(id).getCreateTime() < 1000*10*60) {
             return getList().get(id);
         }
         removeCartfromList(id);
         return null;
     }
+
+    //this function is only for testing without waiting fot 10 minutes
+    public Cart getByIdIn5Seg(int id) throws InterruptedException {
+        if (!this.getList().containsKey(id)) throw new RuntimeException("Cart id not found!");
+        if (System.currentTimeMillis() - this.getList().get(id).getCreateTime() < 1000*5) {
+            return getList().get(id);
+        }
+        removeCartfromList(id);
+        return null;
+    }
+
 
     public List<Product> getProductsList(int id) throws InterruptedException {
         if (!this.getList().containsKey(id)) return new ArrayList<Product>();

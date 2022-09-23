@@ -38,15 +38,13 @@ public class CartService {
             }
             cart.setProducts(new ArrayList<Product>());
         }
-
         carts.removeCartfromList(id);
-
     }
 
     public Cart getCart(int id) throws InterruptedException {
         Carts carts = Carts.getInstance();
         if (!carts.getList().containsKey(id)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cart with id '" + id + "' not found");
+            return null;
         };
         return carts.getById(id);
     }
@@ -54,7 +52,6 @@ public class CartService {
     public Cart addProduct(int cartId, long productId) throws InterruptedException {
         Carts carts = Carts.getInstance();
         List<Product> productList = carts.getProductsList(cartId);
-//      if (getCart(cartId) == null) return null;
         if (carts.getById(cartId) == null) {
             if (productList.size() > 0) {
                 for (Product product : productList) {
@@ -71,7 +68,6 @@ public class CartService {
 
         Cart cart = getCart(cartId);
         if (productRepository.findById(productId).isEmpty()) {
-            System.out.println("el producto no existe");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product with id '" + productId + "' not found");
         }
         Product product = productRepository.findById(productId).get();
@@ -81,13 +77,4 @@ public class CartService {
         return cart;
     }
 
-    public void emptyProductsFromCar(List<Product> products) {
-        if (products.size() > 0) {
-            for (Product product : products) {
-                Product foundProduct = productRepository.findById(product.getId()).get();
-                product.setAmount(product.getAmount() + 1);
-                productRepository.save(product);
-            }
-        }
-    }
 }
