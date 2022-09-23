@@ -33,37 +33,37 @@ public class OneboxApplication implements CommandLineRunner {
 		));
 
 
-		cartService.createCart();
-		cartService.createCart();
-		cartService.createCart();
-		cartService.createCart();
-		Carts carts = Carts.getInstance();
-		System.out.println(carts.getList().size());
-		cartService.deleteCart(1);
-		System.out.println(carts.getList().size());
-		System.out.println(cartService.getCart(2));
-		cartService.addProduct(2,1);
-		cartService.addProduct(2,2);
-
-		System.err.println("----1");
-		System.err.println(cartService.getCart(2).getProducts());
-		System.err.println("----2");
-
-		System.err.println(carts.getList().size());
-		cartService.deleteCart(3);
-		Thread.sleep(4000);
-		System.err.println(carts.getList().size());
-		System.err.println("--------------------------------------3");
-		cartService.addProduct(2,2);
-		System.err.println("--------------------------------------4");
-		System.err.println(carts.getList().size());
-		cartService.createCart();
-		System.err.println(carts.getList().size());
-		System.err.println("----4");
-		System.err.println("--------------------------------------5");
-		Thread.sleep(1000);
-		cartService.addProduct(5,2);
-		System.err.println(carts.getList().size());
+//		cartService.createCart();
+//		cartService.createCart();
+//		cartService.createCart();
+//		cartService.createCart();
+//		Carts carts = Carts.getInstance();
+//		System.out.println(carts.getList().size());
+//		cartService.deleteCart(1);
+//		System.out.println(carts.getList().size());
+//		System.out.println(cartService.getCart(2));
+//		cartService.addProduct(2,1);
+//		cartService.addProduct(2,2);
+//
+//		System.err.println("----1");
+//		System.err.println(cartService.getCart(2).getProducts());
+//		System.err.println("----2");
+//
+//		System.err.println(carts.getList().size());
+//		cartService.deleteCart(3);
+//		Thread.sleep(4000);
+//		System.err.println(carts.getList().size());
+//		System.err.println("--------------------------------------3");
+//		cartService.addProduct(2,2);
+//		System.err.println("--------------------------------------4");
+//		System.err.println(carts.getList().size());
+//		cartService.createCart();
+//		System.err.println(carts.getList().size());
+//		System.err.println("----4");
+//		System.err.println("--------------------------------------5");
+//		Thread.sleep(1000);
+//		cartService.addProduct(5,2);
+//		System.err.println(carts.getList().size());
 
 	};
 
