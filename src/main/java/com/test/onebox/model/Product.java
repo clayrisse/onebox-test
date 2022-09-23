@@ -24,4 +24,13 @@ public class  Product {
         this.amount = amount;
     }
 
+    public long getId() { return id; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public long getAmount() { return amount; }
+    public void setAmount(long amount) { this.amount = amount; }
+
+
 }

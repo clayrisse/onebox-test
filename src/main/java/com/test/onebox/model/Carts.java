@@ -23,7 +23,7 @@ public class Carts {
     public Cart getById(int id) throws InterruptedException {
 
         if (!this.getList().containsKey(id)) throw new RuntimeException("Cart id not found!");
-        if (System.currentTimeMillis() - this.getList().get(id).getCreateTime() < 1000*10*60) {
+        if (System.currentTimeMillis() - this.getList().get(id).getCreateTime() < 1000*60*10) {
             return getList().get(id);
         }
         removeCartfromList(id);

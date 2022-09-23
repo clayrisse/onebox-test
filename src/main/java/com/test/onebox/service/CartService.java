@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,20 +23,30 @@ public class CartService {
         return carts.createCart();
     }
 
+    public Cart checkCartExistsAndReturnProductsIfApply(int cartId) throws InterruptedException {
+        Carts carts = Carts.getInstance();
+        List<Product> productList = carts.getProductsList(cartId);
+        if (carts.getById(cartId) == null) {
+            if (productList.size() > 0) {
+                for (Product product : productList) {
+                    if (productRepository.findById(product.getId()).isPresent()) {
+                        Product foundProduct = productRepository.findById(product.getId()).get();
+                        foundProduct.setAmount(product.getAmount() + 1);
+                        productRepository.save(foundProduct);
+                    }
+                }
+            }
+            return null;
+        }
+        return carts.getById(cartId);
+    }
+
     public void deleteCart(int id) throws InterruptedException {
         Carts carts = Carts.getInstance();
         if (!carts.getList().containsKey(id)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cart with id '" + id + "' not found");
         }
-        Cart cart = carts.getById(id);
-        if (cart.getProducts().size() > 0) {
-            for (Product product : cart.getProducts()) {
-                Product foundProduct = productRepository.findById(product.getId()).get();
-                product.setAmount(product.getAmount() + 1);
-                productRepository.save(product);
-            }
-            cart.setProducts(new ArrayList<Product>());
-        }
+        checkCartExistsAndReturnProductsIfApply(id);
         carts.removeCartfromList(id);
     }
 
@@ -46,25 +55,11 @@ public class CartService {
         if (!carts.getList().containsKey(id)) {
             return null;
         };
-        return carts.getById(id);
+        return checkCartExistsAndReturnProductsIfApply(id);
     }
 
     public Cart addProduct(int cartId, long productId) throws InterruptedException {
-        Carts carts = Carts.getInstance();
-        List<Product> productList = carts.getProductsList(cartId);
-        if (carts.getById(cartId) == null) {
-            if (productList.size() > 0) {
-                for (Product product : productList) {
-                    if (productRepository.findById(product.getId()).isPresent()) {
-                        Product foundProduct = productRepository.findById(product.getId()).get();
-                        System.err.println(foundProduct);
-                        foundProduct.setAmount(product.getAmount() + 1);
-                        productRepository.save(foundProduct);
-                    }
-                }
-            }
-            return null;
-        }
+        checkCartExistsAndReturnProductsIfApply(cartId);
 
         Cart cart = getCart(cartId);
         if (productRepository.findById(productId).isEmpty()) {
